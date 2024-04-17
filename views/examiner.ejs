@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/head') %>
+
+    <body>
+        <%- include('layouts/nav') %>
+            <header class="masthead" style="background-image: url('assets/img/about-bg.jpg')">
+                <div class="container position-relative px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="page-heading">
+                                <h1>Examiner View - Appointment List</h1>
+                                <span class="subheading">Appointment List</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="mb-4">
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <h1 class="text-center">Appointment List</h1>
+                            <form action="/updateDriverStatus" method="POST">
+                                <ul class="list-group">
+                                    <% drivers.forEach(function(driver) { %>
+                                        <li class="list-group-item">
+                                            <%= driver.firstName %> Username: <%= driver.username %>
+                                                    <!-- Hidden field to indicate whether the driver is selected -->
+                                                    <input type="hidden" name="selected_<%= driver._id %>"
+                                                        value="<%= driver.passed ? 'on' : 'off' %>">
+                                                    <label style="float: right;">
+                                                        <input type="checkbox" name="status_<%= driver._id %>"
+                                                            <%=driver.passed ? 'checked' : '' %>>
+                                                        Passed
+                                                    </label>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <button type="submit" class="btn btn-primary mt-3">Update Status</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- Footer-->
+            <%- include('layouts/footer') %>
+                <%- include('layouts/script') %>
+    </body>
+
+</html>

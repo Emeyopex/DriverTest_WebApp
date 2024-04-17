@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/head') %>
+
+    <body>
+        <!-- Navigation-->
+        <%- include('layouts/nav') %>
+            <!-- Page Header-->
+            <header class="masthead" style="background-image: url('assets/img/about-bg.jpg')">
+                <div class="container position-relative px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="page-heading">
+                                <h1>Enter Your Data</h1>
+                                <span class="subheading">Please enter information</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main Content-->
+            <main class="mb-4">
+                <div class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <section class="col-md-10 col-lg-8 col-xl-7">
+                            <h2>Personal Information</h2>
+                            <form action="/saveUser" method="POST">
+                                <div class="mb-3">
+                                    <label for="firstName" class="form-label">First Name:</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Last Name:</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="licenseNumber" class="form-label">License Number (8 characters
+                                        alphanumeric):</label>
+                                    <input type="text" class="form-control" id="licenseNumber" name="licenseNumber"
+                                        pattern="[A-Za-z0-9]{8}" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Age:</label>
+                                    <input type="number" class="form-control" id="age" name="age" required>
+                                </div>
+
+                                <!-- Car Information Section -->
+                                <h2>Car Information</h2>
+                                <div class="mb-3">
+                                    <label for="make" class="form-label">Make:</label>
+                                    <input type="text" class="form-control" id="make" name="make" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="model" class="form-label">Model:</label>
+                                    <input type="text" class="form-control" id="model" name="model" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="year" class="form-label">Year:</label>
+                                    <input type="text" class="form-control" id="year" name="year" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="platNumber" class="form-label">Plate Number:</label>
+                                    <input type="text" class="form-control" id="platNumber" name="platNumber" required>
+                                </div>
+
+                                <!-- Time Selection Section -->
+                                <h2>Appointment Time</h2>
+                                <div class="mb-3">
+                                    <label for="appointmentTime" class="form-label">Choose Appointment Time:</label>
+                                    <select class="form-select" id="appointmentTime" name="appointmentTime" required>
+                                        <option value="">Select a time</option>
+                                        <% availableTimeSlots.forEach(function(time) { %>
+                                            <option value="<%= time %>">
+                                                <%= time %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </main>
+            <!-- Footer-->
+            <%- include('layouts/footer') %>
+                <%- include('layouts/script') %>
+    </body>
+
+</html>

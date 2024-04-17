@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/head') %>
+
+    <body>
+        <!-- Navigation-->
+        <%- include('layouts/nav') %>
+            <!-- Page Header-->
+            <header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">
+                <div class="container position-relative px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="post-heading">
+                                <h1>Enter Your Data</h1>
+                                <h2 class="subheading">Please enter the license number.</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Post Content-->
+            <article class="mb-4">
+                <div class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <!-- Form on G Page -->
+                            <div class="container">
+                                <h1 class="mt-5">Enter Your License Number on the G Page</h1>
+                                <form action="/findUser" method="POST">
+                                    <div class="form-group">
+                                        <label for="licenseNumber">Please Enter Your License Number:</label>
+                                        <input type="text" id="licenseNumber" name="licenseNumber" class="form-control"
+                                            required>
+                                    </div>
+                                    <button style="margin-top: 10px;" type="submit"
+                                        class="btn btn-primary">Submit</button>
+                                </form>
+
+                                <% if (user) { %>
+                                    <h2 class="mt-5">User Information</h2>
+                                    <p>Name: <%= user.firstName %>
+                                            <%= user.lastName %>
+                                    </p>
+                                    <p>Age: <%= user.age %>
+                                    </p>
+
+                                    <% if (user.car_details) { %>
+                                        <h2>Car Information</h2>
+                                        <p>Car Make: <%= user.car_details.make %>
+                                        </p>
+                                        <p>Car Model: <%= user.car_details.model %>
+                                        </p>
+                                        <p>Car Year: <%= user.car_details.year %>
+                                        </p>
+                                        <p>License Plate: <%= user.car_details.platNumber %>
+                                        </p>
+                                        <% } %>
+
+                                            <h2>Update Car Information</h2>
+                                            <form action="/update-car-info" method="POST">
+                                                <input type="hidden" id="licenseNumber" name="licenseNumber"
+                                                    value="<%= user.licenseNumber ? user.licenseNumber : '' %>">
+                                                <div class="form-group">
+                                                    <label for="make">Car Make:</label>
+                                                    <input type="text" id="make" name="make"
+                                                        value="<%= user.car_details ? user.car_details.make : '' %>"
+                                                        class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="model">Car Model:</label>
+                                                    <input type="text" id="model" name="model"
+                                                        value="<%= user.car_details ? user.car_details.model : '' %>"
+                                                        class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="year">Car Year:</label>
+                                                    <input type="text" id="year" name="year"
+                                                        value="<%= user.car_details ? user.car_details.year : '' %>"
+                                                        class="form-control" required>
+                                                </div>
+                                                <button style="margin-top: 10px;" type="submit"
+                                                    class="btn btn-primary">Update Car
+                                                    Information</button>
+                                            </form>
+                                            <% } else if (errorMessage) { %>
+                                                <p>
+                                                    <%= errorMessage %>
+                                                </p>
+                                                <% } %>
+                                                    <h2 style="margin: 10px 0;">Appointment Date and Time Slot Selection
+                                                    </h2>
+                                                    <form action="/addAppointment" method="POST">
+                                                        <div class="mb-3">
+                                                            <label for="date" class="form-label">Select Date:</label>
+                                                            <input type="date" id="date" name="date"
+                                                                class="form-control" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="time" class="form-label">Select Time:</label>
+                                                            <select id="time" name="time" class="form-control" required>
+                                                                <option value="" selected disabled>Select Time</option>
+                                                                <% for (let i=9; i <=14; i++) { %>
+                                                                    <% for (let j=0; j < 2; j++) { %>
+                                                                        <% const timeSlot=i + ':' + (j===0 ? '00' : '30'
+                                                                            ); %>
+                                                                            <% const
+                                                                                isTimeSlotAvailable=availableTimeSlots.includes(timeSlot);
+                                                                                %>
+                                                                                <option value="<%= timeSlot %>"
+                                                                                    <%=isTimeSlotAvailable ? ''
+                                                                                    : 'disabled' %>>
+                                                                                    <%= timeSlot %>
+                                                                                </option>
+                                                                                <% } %>
+                                                                                    <% } %>
+                                                            </select>
+                                                        </div>
+                                                        <% const isButtonDisabled=availableTimeSlots.length===0; %>
+                                                            <button type="submit" class="btn btn-primary mt-3"
+                                                                <%=isButtonDisabled ? 'disabled' : '' %>>
+                                                                Add Appointment
+                                                            </button>
+                                                    </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Footer-->
+            <%- include('layouts/footer') %>
+                <%- include('layouts/script') %>
+                    <!-- Bootstrap core JS-->
+    </body>
+
+</html>
